@@ -30,44 +30,67 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0d1b 0%, #1a1333 40%, #15112b 70%, #0f0d1b 100%);
+            background-color: #080612;
             min-height: 100vh;
             color: #e2e0f0;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Animated background orbs */
-        body::before,
-        body::after {
-            content: '';
+        /* iOS 26 Glassmorphism Background */
+        .bg-mirror {
             position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.15;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 0;
             pointer-events: none;
+            overflow: hidden;
         }
-        body::before {
-            width: 600px;
-            height: 600px;
-            background: #6c5ce7;
-            top: -200px;
-            right: -100px;
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            filter: blur(80px);
             animation: floatOrb 20s ease-in-out infinite;
         }
-        body::after {
-            width: 500px;
-            height: 500px;
-            background: #a855f7;
-            bottom: -150px;
-            left: -100px;
-            animation: floatOrb 25s ease-in-out infinite reverse;
+
+        .bg-orb-1 {
+            width: 50vw; height: 50vw;
+            background: rgba(108, 92, 231, 0.7);
+            top: -10vw; right: -10vw;
+            animation-duration: 25s;
+        }
+
+        .bg-orb-2 {
+            width: 45vw; height: 45vw;
+            background: rgba(168, 85, 247, 0.6);
+            bottom: -10vw; left: -10vw;
+            animation-duration: 28s;
+            animation-direction: reverse;
+        }
+
+        .bg-orb-3 {
+            width: 40vw; height: 40vw;
+            background: rgba(43, 27, 84, 0.8);
+            top: 30vh; left: 30vw;
+            animation-duration: 22s;
+            animation-delay: -5s;
+        }
+
+        .bg-glass-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            backdrop-filter: blur(70px) saturate(180%);
+            -webkit-backdrop-filter: blur(70px) saturate(180%);
+            background: rgba(15, 13, 27, 0.35); /* Base tint matching original theme */
+            z-index: 0;
+            pointer-events: none;
         }
 
         @keyframes floatOrb {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(40px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.95); }
+            33% { transform: translate(6vw, -4vh) scale(1.15); }
+            66% { transform: translate(-4vw, 4vh) scale(0.85); }
         }
 
         /* ===== CONTAINER ===== */
@@ -111,16 +134,21 @@
 
         /* ===== CONTROLS ===== */
         .controls {
+            position: relative;
+            z-index: 100;
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-bottom: 32px;
             padding: 20px;
-            background: rgba(30, 25, 55, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 16px;
-            border: 1px solid rgba(108, 92, 231, 0.15);
+            background: rgba(25, 20, 45, 0.25);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             animation: fadeInUp 0.8s ease 0.5s both;
         }
 
@@ -137,37 +165,141 @@
             min-width: 220px;
         }
 
-        .controls input,
-        .controls select {
+        .controls input {
             flex: 1;
             padding: 12px 18px;
-            background: rgba(15, 13, 27, 0.6);
-            border: 1px solid rgba(108, 92, 231, 0.25);
-            border-radius: 12px;
-            color: #e2e0f0;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: #f0eef8;
             font-family: 'Inter', sans-serif;
             font-size: 0.95rem;
             transition: all 0.3s ease;
             outline: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .controls input::placeholder {
             color: rgba(226, 224, 240, 0.35);
         }
 
-        .controls select.placeholder {
-            color: rgba(226, 224, 240, 0.35);
+        .controls input:focus {
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .controls input:focus,
-        .controls select:focus {
-            border-color: #6c5ce7;
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15), 0 0 20px rgba(108, 92, 231, 0.1);
+        /* ===== CUSTOM GLASS SELECT ===== */
+        .custom-select-container {
+            position: relative;
+            flex: 1;
+            min-width: 240px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            z-index: 50; 
         }
 
-        .controls select option {
-            background: #1a1333;
-            color: #e2e0f0;
+        .custom-select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: #f0eef8;
+            cursor: pointer;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .custom-select-trigger:hover,
+        .custom-select-container.open .custom-select-trigger {
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            background: rgba(25, 20, 45, 0.4);
+        }
+
+        .custom-select-trigger span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .custom-select-trigger .chevron {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0.7;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .custom-select-container.open .custom-select-trigger .chevron {
+            transform: rotate(180deg);
+        }
+
+        .custom-options-panel {
+            position: absolute;
+            top: calc(100% + 12px);
+            left: 0;
+            right: 0;
+            background: rgba(18, 14, 32, 0.95);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.98);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 350px;
+            overflow-y: auto;
+            transform-origin: top center;
+        }
+
+        .custom-select-container.open .custom-options-panel {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .custom-options-panel::-webkit-scrollbar { width: 4px; }
+        .custom-options-panel::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.4); border-radius: 10px; }
+        
+        .custom-option {
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: rgba(240, 238, 248, 0.85);
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .custom-option:hover, .custom-option.selected {
+            background: rgba(168, 85, 247, 0.3);
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        .custom-option.selected {
+            font-weight: 600;
+        }
+
+        .custom-option-group-label {
+            padding: 16px 14px 6px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(168, 85, 247, 0.7);
+            font-weight: 700;
         }
 
         .btn-search {
@@ -231,16 +363,19 @@
         }
 
         .skeleton-card {
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
-            background: rgba(30, 25, 55, 0.5);
-            border: 1px solid rgba(108, 92, 231, 0.1);
+            background: rgba(30, 25, 55, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .skeleton-img {
             width: 100%;
             height: 280px;
-            background: linear-gradient(90deg, rgba(30, 25, 55, 0.5) 25%, rgba(50, 40, 80, 0.5) 50%, rgba(30, 25, 55, 0.5) 75%);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
@@ -249,7 +384,7 @@
             height: 16px;
             margin: 14px;
             border-radius: 8px;
-            background: linear-gradient(90deg, rgba(30, 25, 55, 0.5) 25%, rgba(50, 40, 80, 0.5) 50%, rgba(30, 25, 55, 0.5) 75%);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
@@ -266,13 +401,32 @@
             gap: 24px;
         }
 
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #f0eef8;
+            margin: 48px 0 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
         /* ===== ANIME CARD ===== */
         .card {
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
-            background: rgba(30, 25, 55, 0.5);
-            border: 1px solid rgba(108, 92, 231, 0.1);
+            background: rgba(30, 25, 55, 0.15);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
             transform: translateY(30px);
@@ -282,11 +436,12 @@
 
         .card:hover {
             transform: translateY(-8px) scale(1.03);
-            border-color: rgba(108, 92, 231, 0.4);
+            background: rgba(40, 32, 70, 0.25);
+            border-color: rgba(255, 255, 255, 0.3);
             box-shadow:
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(108, 92, 231, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(168, 85, 247, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         @keyframes cardEnter {
@@ -305,11 +460,45 @@
             width: 100%;
             height: 280px;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: all 0.5s ease;
         }
 
         .card:hover .card-image-wrapper img {
             transform: scale(1.08);
+        }
+
+        .card-image-wrapper img.blurred-img {
+            filter: blur(20px) brightness(0.6);
+            transform: scale(1.1);
+        }
+        
+        .card:hover .card-image-wrapper img.blurred-img {
+            transform: scale(1.15); /* Keep overscaled on hover so edges don't show */
+        }
+
+        .nsfw-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 13, 27, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            color: #ff6b6b;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: opacity 0.3s ease;
+        }
+
+        .nsfw-overlay span {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 107, 0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            pointer-events: none;
         }
 
         .card-image-wrapper::after {
@@ -414,19 +603,21 @@
         }
 
         .modal-content {
-            background: rgba(26, 19, 51, 0.95);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(108, 92, 231, 0.2);
+            background: rgba(26, 19, 51, 0.4);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
             padding: 0;
-            border-radius: 24px;
+            border-radius: 28px;
             max-width: 680px;
             width: 100%;
             max-height: 85vh;
             overflow-y: auto;
             transform: translateY(30px) scale(0.95);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(108, 92, 231, 0.1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .modal.active .modal-content {
@@ -655,6 +846,11 @@
             .modal-header h2 {
                 font-size: 1.3rem;
             }
+
+            .section-title {
+                margin: 32px 0 16px;
+                font-size: 1.3rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -680,6 +876,14 @@
 </head>
 <body>
 
+<!-- iOS Glass Background Layers -->
+<div class="bg-mirror">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+</div>
+<div class="bg-glass-layer"></div>
+
 <div class="container">
     <!-- Header -->
     <header class="header">
@@ -694,29 +898,33 @@
             <button class="btn-search" onclick="cariAnime()">Cari</button>
         </div>
 
-        <div class="filter-box">
-            <select id="seasonFilter" class="placeholder" onchange="filterMusim(); this.classList.toggle('placeholder', !this.value)">
-                <option value="">— Pilih Musim & Tahun —</option>
-                <option value="upcoming">🌟 Upcoming (Mendatang)</option>
-                <optgroup label="Tahun 2026">
-                    <option value="2026/fall">🍂 Fall 2026</option>
-                    <option value="2026/summer">☀️ Summer 2026</option>
-                    <option value="2026/spring">🌸 Spring 2026</option>
-                    <option value="2026/winter">❄️ Winter 2026</option>
-                </optgroup>
-                <optgroup label="Tahun 2025">
-                    <option value="2025/fall">🍂 Fall 2025</option>
-                    <option value="2025/summer">☀️ Summer 2025</option>
-                    <option value="2025/spring">🌸 Spring 2025</option>
-                    <option value="2025/winter">❄️ Winter 2025</option>
-                </optgroup>
-                <optgroup label="Tahun 2024">
-                    <option value="2024/fall">🍂 Fall 2024</option>
-                    <option value="2024/summer">☀️ Summer 2024</option>
-                    <option value="2024/spring">🌸 Spring 2024</option>
-                    <option value="2024/winter">❄️ Winter 2024</option>
-                </optgroup>
-            </select>
+        <div class="custom-select-container" id="seasonSelectContainer">
+            <div class="custom-select-trigger" onclick="toggleSelect()">
+                <span id="customSelectLabel">— Pilih Musim & Tahun —</span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </div>
+            <div class="custom-options-panel" id="customOptionsPanel">
+                <div class="custom-option" onclick="pilihMusim('', '🔄 Reset Pilihan Terbaru', event)">🔄 Reset / Terbaru</div>
+                <div class="custom-option" onclick="pilihMusim('upcoming', '🌟 Upcoming (Mendatang)', event)">🌟 Upcoming (Mendatang)</div>
+                
+                <div class="custom-option-group-label">Tahun 2026</div>
+                <div class="custom-option" onclick="pilihMusim('2026/fall', '🍂 Fall 2026', event)">🍂 Fall 2026</div>
+                <div class="custom-option" onclick="pilihMusim('2026/summer', '☀️ Summer 2026', event)">☀️ Summer 2026</div>
+                <div class="custom-option" onclick="pilihMusim('2026/spring', '🌸 Spring 2026', event)">🌸 Spring 2026</div>
+                <div class="custom-option" onclick="pilihMusim('2026/winter', '❄️ Winter 2026', event)">❄️ Winter 2026</div>
+                
+                <div class="custom-option-group-label">Tahun 2025</div>
+                <div class="custom-option" onclick="pilihMusim('2025/fall', '🍂 Fall 2025', event)">🍂 Fall 2025</div>
+                <div class="custom-option" onclick="pilihMusim('2025/summer', '☀️ Summer 2025', event)">☀️ Summer 2025</div>
+                <div class="custom-option" onclick="pilihMusim('2025/spring', '🌸 Spring 2025', event)">🌸 Spring 2025</div>
+                <div class="custom-option" onclick="pilihMusim('2025/winter', '❄️ Winter 2025', event)">❄️ Winter 2025</div>
+                
+                <div class="custom-option-group-label">Tahun 2024</div>
+                <div class="custom-option" onclick="pilihMusim('2024/fall', '🍂 Fall 2024', event)">🍂 Fall 2024</div>
+                <div class="custom-option" onclick="pilihMusim('2024/summer', '☀️ Summer 2024', event)">☀️ Summer 2024</div>
+                <div class="custom-option" onclick="pilihMusim('2024/spring', '🌸 Spring 2024', event)">🌸 Spring 2024</div>
+                <div class="custom-option" onclick="pilihMusim('2024/winter', '❄️ Winter 2024', event)">❄️ Winter 2024</div>
+            </div>
         </div>
     </div>
 
@@ -735,7 +943,7 @@
     </div>
 
     <!-- Results Grid -->
-    <div id="resultGrid" class="grid"></div>
+    <div id="resultGrid"></div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -779,22 +987,49 @@
 <script>
     let dataAnime = [];
 
-    async function fetchAPI(url) {
+    async function fetchAPI(url, fetchComplete = false) {
         const errorMsg = document.getElementById('error');
         const grid = document.getElementById('resultGrid');
         const skeleton = document.getElementById('skeletonGrid');
+        const loading = document.getElementById('loading');
 
         grid.innerHTML = '';
         errorMsg.style.display = 'none';
         skeleton.style.display = 'grid';
+        loading.style.display = 'block';
+        loading.innerText = 'Mengambil data anime...';
+        dataAnime = [];
 
         try {
-            const response = await axios.get(url);
-            dataAnime = response.data.data;
+            let response = await axios.get(url);
+            let currentData = response.data.data;
+            dataAnime = dataAnime.concat(currentData);
+
+            if (fetchComplete && response.data.pagination && response.data.pagination.has_next_page) {
+                let page = 2;
+                let hasNextPage = response.data.pagination.has_next_page;
+                
+                // Ambil maksimal hingga 10 halaman agar tidak melampaui rate-limits Jikan
+                while (hasNextPage && page <= 10) {
+                    loading.innerText = `Mengambil kelengkapan data (Halaman ${page})...`;
+                    // Delay 400ms untuk menghindari rate limit API
+                    await new Promise(res => setTimeout(res, 400));
+                    
+                    const nextUrl = url.includes('?') ? `${url}&page=${page}` : `${url}?page=${page}`;
+                    let nextRes = await axios.get(nextUrl);
+                    
+                    dataAnime = dataAnime.concat(nextRes.data.data);
+                    hasNextPage = nextRes.data.pagination.has_next_page;
+                    page++;
+                }
+            }
+
             skeleton.style.display = 'none';
+            loading.style.display = 'none';
             tampilkanData(dataAnime);
         } catch (error) {
             skeleton.style.display = 'none';
+            loading.style.display = 'none';
             errorMsg.style.display = 'block';
             console.error(error);
         }
@@ -804,24 +1039,54 @@
         const query = document.getElementById('searchInput').value.trim();
         if (!query) return;
 
-        document.getElementById('seasonFilter').value = '';
-        fetchAPI(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=12`);
+        // Reset custom select
+        document.getElementById('customSelectLabel').innerText = '— Pilih Musim & Tahun —';
+        document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+
+        // Cukup ambil halaman pertama untuk pencarian
+        fetchAPI(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=25`, false);
     }
 
-    function filterMusim() {
-        const filterValue = document.getElementById('seasonFilter').value;
-        if (!filterValue) return;
+    function toggleSelect() {
+        document.getElementById('seasonSelectContainer').classList.toggle('open');
+    }
 
+    // Tutup custom select jika klik di luar
+    document.addEventListener('click', function(e) {
+        const container = document.getElementById('seasonSelectContainer');
+        if (container && !container.contains(e.target)) {
+            container.classList.remove('open');
+        }
+    });
+
+    function pilihMusim(value, label, event) {
+        document.getElementById('customSelectLabel').innerText = label;
+        document.getElementById('seasonSelectContainer').classList.remove('open');
+        
+        // Tandai opsi terpilih
+        const options = document.querySelectorAll('.custom-option');
+        options.forEach(opt => opt.classList.remove('selected'));
+        if (event) {
+            event.currentTarget.classList.add('selected');
+        }
+
+        // Hapus query di input pencarian jika ada filter
         document.getElementById('searchInput').value = '';
 
-        const url = filterValue === 'upcoming'
-            ? 'https://api.jikan.moe/v4/seasons/upcoming?limit=12'
-            : `https://api.jikan.moe/v4/seasons/${filterValue}?limit=12`;
-        fetchAPI(url);
+        if (!value) {
+            fetchAPI('https://api.jikan.moe/v4/seasons/now', true);
+            return;
+        }
+
+        const url = value === 'upcoming'
+            ? 'https://api.jikan.moe/v4/seasons/upcoming'
+            : `https://api.jikan.moe/v4/seasons/${value}`;
+        fetchAPI(url, true);
     }
 
     function tampilkanData(animeList) {
         const grid = document.getElementById('resultGrid');
+        grid.innerHTML = '';
 
         if (animeList.length === 0) {
             grid.innerHTML = `
@@ -834,34 +1099,86 @@
             return;
         }
 
-        animeList.forEach((anime, index) => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.style.animationDelay = `${index * 0.07}s`;
-            card.onclick = () => bukaModal(index);
+        // Kategori terurut sesuai permintaan
+        const typeOrder = ['TV', 'Movie', 'ONA', 'OVA', 'Special', 'Music', 'Others'];
+        const grouped = {};
 
-            const score = anime.score ? anime.score.toFixed(1) : null;
-            const type = anime.type || '';
-            const episodes = anime.episodes ? `${anime.episodes} ep` : '';
+        // Pengelompokkan map & save original index untuk modal
+        animeList.forEach((anime, originalIndex) => {
+            anime._originalIndex = originalIndex;
+            let type = anime.type || 'Others';
+            if (!typeOrder.includes(type)) type = 'Others';
+            
+            if (!grouped[type]) grouped[type] = [];
+            grouped[type].push(anime);
+        });
 
-            card.innerHTML = `
-                <div class="card-image-wrapper">
-                    <img src="${anime.images.jpg.large_image_url || anime.images.jpg.image_url}" alt="${anime.title}" loading="lazy">
-                    ${score ? `<div class="card-score">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        ${score}
-                    </div>` : ''}
-                    ${type ? `<div class="card-type">${type}</div>` : ''}
-                </div>
-                <div class="card-info">
-                    <h3>${anime.title}</h3>
-                    <div class="card-meta">
-                        ${episodes ? `<span>📺 ${episodes}</span>` : ''}
-                        ${anime.season ? `<span>📅 ${anime.season} ${anime.year || ''}</span>` : ''}
-                    </div>
-                </div>
-            `;
-            grid.appendChild(card);
+        const iconMap = { 'TV': '📺', 'Movie': '🎬', 'ONA': '🌐', 'OVA': '💿', 'Special': '🎁', 'Music': '🎵', 'Others': '📦' };
+
+        typeOrder.forEach(type => {
+            if (grouped[type] && grouped[type].length > 0) {
+                // Antisipasi duplikat akibat paginasi overlapping
+                const uniqueAnime = [];
+                const seen = new Set();
+                grouped[type].forEach(a => {
+                    if (!seen.has(a.mal_id)) {
+                        seen.add(a.mal_id);
+                        uniqueAnime.push(a);
+                    }
+                });
+
+                // Buat Judul Segmen
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.innerHTML = `${iconMap[type] || '📌'} ${type === 'TV' ? 'TV Series' : type === 'Others' ? 'Lain-lain' : type}`;
+                grid.appendChild(sectionTitle);
+
+                // Buat grid spesifik per segmen
+                const typeGrid = document.createElement('div');
+                typeGrid.className = 'grid type-grid';
+                
+                uniqueAnime.forEach((anime, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.style.animationDelay = `${(idx % 15) * 0.05}s`;
+                    card.onclick = () => bukaModal(anime._originalIndex);
+
+                    const score = anime.score ? anime.score.toFixed(1) : null;
+                    const episodes = anime.episodes ? `${anime.episodes} ep` : '';
+
+                    // Cek apakah ada genre eksplisit/hentai
+                    let isHentai = false;
+                    if (anime.genres) {
+                        isHentai = isHentai || anime.genres.some(g => g.name.toLowerCase() === 'hentai' || g.name.toLowerCase() === 'erotica' || g.name.toLowerCase() === 'ecchi');
+                    }
+                    if (!isHentai && anime.explicit_genres) {
+                        isHentai = isHentai || anime.explicit_genres.some(g => g.name.toLowerCase() === 'hentai' || g.name.toLowerCase() === 'erotica' || g.name.toLowerCase() === 'ecchi');
+                    }
+
+                    card.innerHTML = `
+                        <div class="card-image-wrapper">
+                            <img src="${anime.images.jpg.large_image_url || anime.images.jpg.image_url}" alt="${anime.title}" loading="lazy" class="${isHentai ? 'blurred-img' : ''}">
+                            ${isHentai ? `
+                            <div class="nsfw-overlay" onclick="bukaSensor(event, this)">
+                                <span>⚠️ 18+ (Klik untuk lihat)</span>
+                            </div>` : ''}
+                            ${score ? `<div class="card-score">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                ${score}
+                            </div>` : ''}
+                        </div>
+                        <div class="card-info">
+                            <h3>${anime.title}</h3>
+                            <div class="card-meta">
+                                ${episodes ? `<span>📺 ${episodes}</span>` : ''}
+                                ${anime.season ? `<span>📅 ${anime.season} ${anime.year || ''}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    typeGrid.appendChild(card);
+                });
+                grid.appendChild(typeGrid);
+            }
         });
     }
 
@@ -904,9 +1221,17 @@
         if (e.key === 'Escape') tutupModal();
     });
 
-    // Load current season on page load
+    // Fungsi untuk membuka sensor NSFW (Hentai) tanpa membuka Modal
+    function bukaSensor(e, element) {
+        e.stopPropagation(); // Mencegah klik menyebar ke card (Mencegah modal terbuka)
+        const img = element.previousElementSibling;
+        if (img) img.classList.remove('blurred-img');
+        element.style.display = 'none';
+    }
+
+    // Load current season on page load (Bawaan ambil komplet)
     window.onload = () => {
-        fetchAPI('https://api.jikan.moe/v4/seasons/now?limit=12');
+        fetchAPI('https://api.jikan.moe/v4/seasons/now', true);
     };
 </script>
 
