@@ -762,6 +762,46 @@
             color: rgba(226, 224, 240, 0.65);
         }
 
+        /* ===== MODAL COVER ===== */
+        .modal-cover-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f0d1b;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-cover-blur {
+            position: absolute;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            background-size: cover;
+            background-position: center;
+            filter: blur(25px) brightness(0.4);
+            z-index: 1;
+        }
+
+        .modal-cover-img {
+            position: relative;
+            z-index: 2;
+            height: 90%;
+            max-width: 90%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s ease;
+        }
+
+        .modal-cover-img:hover {
+            transform: scale(1.03);
+        }
+
         /* ===== EMPTY STATE ===== */
         .empty-state {
             grid-column: 1 / -1;
@@ -841,6 +881,11 @@
 
             .modal-body {
                 padding: 16px 20px 20px;
+            }
+
+            .modal-cover-wrapper {
+                height: 240px;
+                margin-bottom: 20px;
             }
 
             .modal-header h2 {
@@ -959,6 +1004,10 @@
             <span class="close-btn" onclick="tutupModal()">✕</span>
         </div>
         <div class="modal-body">
+            <div class="modal-cover-wrapper">
+                <div class="modal-cover-blur" id="modalCoverBlur"></div>
+                <img id="modalCover" src="" alt="Anime Cover" class="modal-cover-img">
+            </div>
             <div class="modal-score-bar">
                 <div>
                     <div class="modal-score-value" id="modalScore">—</div>
@@ -1186,6 +1235,11 @@
         const anime = dataAnime[index];
 
         document.getElementById('modalTitle').innerText = anime.title;
+        
+        const imageUrl = anime.images.jpg.large_image_url || anime.images.jpg.image_url;
+        document.getElementById('modalCover').src = imageUrl;
+        document.getElementById('modalCoverBlur').style.backgroundImage = `url('${imageUrl}')`;
+
         document.getElementById('modalScore').innerText = anime.score ? anime.score.toFixed(1) : '—';
         document.getElementById('modalEpisodes').innerText = anime.episodes || '?';
         document.getElementById('modalStatus').innerText = anime.status || '—';
